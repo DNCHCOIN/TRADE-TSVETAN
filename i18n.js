@@ -6,6 +6,9 @@
 (()=>{'use strict';
 const rows = [
  ['Език','语言','Language'],
+ ['TRADE · БЪЛГАРИЯ × КИТАЙ','TRADE · 保加利亚 × 中国','TRADE · BULGARIA × CHINA'],
+ ['БЪЛГАРИЯ × КИТАЙ','保加利亚 × 中国','BULGARIA × CHINA'],
+ ['НЕЗАВИСИМА ДЕМОВЕРСИЯ','独立演示版','INDEPENDENT DEMO'],
  ['Меню','菜单','Menu'],
  ['Компании','企业','Companies'],
  ['Обяви','商机','Opportunities'],
