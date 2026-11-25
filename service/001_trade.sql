@@ -44,8 +44,12 @@ CREATE POLICY inquiry_scope ON trade.inquiries USING(sender_id=trade.tenant() OR
 DROP POLICY IF EXISTS message_scope ON trade.messages;
 CREATE POLICY message_scope ON trade.messages USING(EXISTS(SELECT 1 FROM trade.inquiries i WHERE i.id=inquiry_id AND (i.sender_id=trade.tenant() OR i.recipient_id=trade.tenant()))) WITH CHECK(company_id=trade.tenant() AND EXISTS(SELECT 1 FROM trade.inquiries i WHERE i.id=inquiry_id AND (i.sender_id=trade.tenant() OR i.recipient_id=trade.tenant())));
 DROP POLICY IF EXISTS document_scope ON trade.documents;
-CREATE POLICY document_scope ON trade.documents USING(company_id=trade.tenant() OR current_setting('app.document_reviewer',true)='on') WITH CHECK(company_id=trade.tenant() OR current_setting('app.document_reviewer',true)='on');
+CREATE POLICY document_scope ON trade.documents FOR ALL USING(company_id=trade.tenant() OR current_setting('app.document_reviewer',true)='on') WITH CHECK(company_id=trade.tenant() OR current_setting('app.document_reviewer',true)='on');
+DROP POLICY IF EXISTS published_document_read ON trade.documents;
+CREATE POLICY published_document_read ON trade.documents FOR SELECT USING(visibility='registered' AND status='reviewed' AND current_setting('app.viewer_verified',true)='on' AND EXISTS(SELECT 1 FROM trade.listings l WHERE l.id=trade.documents.parent_id AND l.company_id=trade.documents.company_id AND l.status='published' AND l.expires_on>=CURRENT_DATE));
 DROP POLICY IF EXISTS audit_scope ON trade.audit;
 CREATE POLICY audit_scope ON trade.audit USING(company_id=trade.tenant()) WITH CHECK(company_id=trade.tenant());
 REVOKE ALL ON ALL TABLES IN SCHEMA trade FROM PUBLIC;
+CREATE OR REPLACE FUNCTION trade.admin_statistics() RETURNS jsonb LANGUAGE sql STABLE SECURITY DEFINER SET search_path='' AS $$SELECT jsonb_build_object('listings',(SELECT count(*) FROM trade.listings WHERE status<>'removed'),'inquiries',(SELECT count(*) FROM trade.inquiries))$$;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA trade FROM PUBLIC;
 COMMIT;

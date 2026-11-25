@@ -6,4 +6,4 @@ Owns the separate `dnch_trade` database. Loaded by BUSINESS HUB `platform/src/se
 
 Private staging browser is served by the shared host. The original root files remain the public demo and are available at `/preview` locally. No localStorage demo record is imported automatically into the business database.
 
-Validation is coordinated in HUB `platform/test/integration.mjs`. Current release and gaps: HUB `platform/README.md`. Catalogue documents are private in this iteration; registered-party publication/download permission needs its own tested release. Customer acceptance and public production access are not claimed.
+Validation is coordinated in HUB `platform/test/integration.mjs`. Current release and gaps: HUB `platform/README.md`. Catalogue documents start private and quarantined. After administrator review, their owner can explicitly share them with verified companies. Public/anonymous downloads remain denied, and access is revoked by unsharing, listing expiry/closure or a changed/suspended company identity. Customer acceptance and public production access are not claimed.

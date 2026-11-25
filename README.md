@@ -44,3 +44,8 @@
 - На китайски търсенето включва и локализираното съдържание на примерните обяви/профили.
 - Правните имена на фирмите нарочно се показват в оригиналния им вид.
 - Професионална редакция от носител на китайски език е препоръчителна преди реално пускане.
+
+
+## Private business implementation — development, 25 November 2026
+
+This branch adds the PostgreSQL-backed operational platform, separate from the public static demo. See [service/README.md](service/README.md) for implemented business flows, security boundaries, tests and remaining launch dependencies. Public production, real shipments, Cloudflare Tunnel and Grupaj.bg are not changed. No client acceptance or 100% completion is claimed.
